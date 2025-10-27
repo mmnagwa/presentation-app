@@ -30,4 +30,31 @@ def safe_json_parse(raw_text):
         print("JSON parsing error:", e)
         return []
 
+def generate_agenda_slide(slides):
+    main_titles = []
+    for slide in slides:
+        title = slide.get("title", "").strip()
+        if not title:
+            continue
+        title_lower = title.lower()
+        if any(x in title_lower for x in ["introduction", "conclusion", "thank", "question"]):
+            continue
+        main_titles.append(title)
+
+    main_ideas = main_titles[:4]
+
+    return {
+        "title": "Agenda",
+        "content": [
+            "• Introduction",
+            "• " + "\n• ".join(main_ideas),
+            "• Conclusion"
+        ]
+    }
+
+
+agenda_slide = generate_agenda_slide(slides_without_agenda)
+
+
+final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:]
 
