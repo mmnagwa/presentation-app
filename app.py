@@ -33,7 +33,6 @@ tips = [
     "📱 End before they start checking their phones 😬."
 ]
 
-
 # Page configuration
 st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 
@@ -66,23 +65,28 @@ if st.button("Generate Presentation"):
         st.warning("⚠️ Please enter a topic to generate your presentation.")
     else:
         with st.spinner("🤖 Generating your presentation..."):
-            # Run the agents to get structure, content, and theme
+            # Step 1: Run agents to get structure, content, and theme
             structure_json, content_json, theme_json = run_agents(topic, slides_num, points_num)
 
-            # Remove the original agenda slide if present
-            slides_without_agenda = [slide for slide in content_json if slide.get("title", "").strip().lower() != "agenda"]
+            # Step 2: Remove original agenda slide if present
+            slides_without_agenda = [
+                slide for slide in content_json
+                if slide.get("title", "").strip().lower() != "agenda"
+            ]
 
-            # Generate a dynamic agenda slide
+            # Step 3: Generate agenda slide
             agenda_slide = generate_agenda_slide(slides_without_agenda)
+
+            # Step 4: Insert agenda after title slide
             final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:]
 
-            # Create the PowerPoint file
+            # Step 5: Create PowerPoint file
             pptx_path = create_ppt_from_json(final_slides, theme_json, topic)
 
-        # Show success message and success.gif
+        # Step 6: Show success message and success.gif
         st.success("✅ Presentation created!")
         st.image("assets/success.gif", width=300)
 
-        # Download button
+        # Step 7: Download button
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
