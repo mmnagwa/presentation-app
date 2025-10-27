@@ -2,8 +2,10 @@ streamlit
 crewai
 langchain
 langchain-community
+langchain
 openai
 transformers
 python-pptx
 python-dotenv
 rich
+
