@@ -1,0 +1,9 @@
+streamlit
+crewai
+langchain
+langchain-community
+openai
+transformers
+python-pptx
+python-dotenv
+rich
