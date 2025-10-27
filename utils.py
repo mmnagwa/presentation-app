@@ -26,4 +26,8 @@ def slugify(text):
 def safe_json_parse(raw_text):
     try:
         return json.loads(raw_text)
-    except json.JSON
+    except json.JSONDecodeError as e:
+        print("JSON parsing error:", e)
+        return []
+
+
