@@ -53,8 +53,5 @@ def generate_agenda_slide(slides):
     }
 
 
-agenda_slide = generate_agenda_slide(slides_without_agenda)
 
-
-final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:]
 
