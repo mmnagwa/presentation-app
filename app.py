@@ -1,10 +1,11 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from agents import run_agents
 from generator import create_ppt_from_json
 from utils import generate_agenda_slide
 import random
 
-# Dynamic tips for the robot assistant
+# Dynamic tips
 tips = [
     "🎤 Don’t read your slides — your audience can read faster than you!",
     "🧙 Pretend your laser pointer is a lightsaber — but use it wisely.",
@@ -33,42 +34,86 @@ tips = [
     "📱 End before they start checking their phones 😬."
 ]
 
-# Page configuration
+# Page config
 st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 
-# App title and instructions
+# Background image from GitHub
+st.markdown("""
+    <style>
+    body {
+        background-image: url("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/abstract-technological-background_23-2148897676.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Title
 st.title("🎓 Presentation Generator")
 st.markdown("Talk to the assistant like you're requesting a presentation.")
 
-# Layout: input box + chat.gif
+# Input + chat.gif
 col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("assets/chat.gif", width=80)
+    st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/chat.gif", width=120)
 
-# Tip section: tip.gif + random tip
-with st.container():
-    tip_col1, tip_col2 = st.columns([1, 5])
-    with tip_col1:
-        st.image("assets/tip.gif", width=60)
-    with tip_col2:
-        st.markdown("💡 **Tip:** " + random.choice(tips))
-
-# Slide settings
+# Sliders
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
 points_num = st.slider("🔹 Points per slide", 2, 6, 3)
 
-# Generate button
+# Generate
 if st.button("Generate Presentation"):
     if not topic.strip():
         st.warning("⚠️ Please enter a topic to generate your presentation.")
     else:
+        # Show tip pop-up
+        tip_text = random.choice(tips)
+        components.html(f"""
+        <div id="popup" style="
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            border: 2px solid #ccc;
+            border-radius: 16px;
+            padding: 20px;
+            z-index: 9999;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            width: 420px;
+            text-align: center;
+            font-family: 'Segoe UI', sans-serif;
+            animation: fadeIn 0.6s ease-in-out;
+        ">
+            <img src="https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/tip.gif" width="100" style="margin-bottom: 10px;" />
+            <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
+            <p style="font-size: 16px;">{tip_text}</p>
+            <button onclick="document.getElementById('popup').style.display='none'" style="
+                margin-top: 12px;
+                padding: 8px 16px;
+                background-color: #ff4b4b;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 14px;
+            ">Close</button>
+        </div>
+
+        <style>
+        @keyframes fadeIn {{
+          from {{ opacity: 0; transform: scale(0.9); }}
+          to {{ opacity: 1; transform: scale(1); }}
+        }}
+        </style>
+        """, height=350)
+
         with st.spinner("🤖 Generating your presentation..."):
-            # Run the agents to get structure, content, and theme
             structure_json, content_json, theme_json = run_agents(topic, slides_num, points_num)
 
-            # Separate ending slides
             ending_titles = ["conclusion", "any questions?", "thank you"]
             ending_slides = []
             content_slides = []
@@ -80,25 +125,18 @@ if st.button("Generate Presentation"):
                 else:
                     content_slides.append(slide)
 
-            # Remove agenda if present
             slides_without_agenda = [
                 slide for slide in content_slides
                 if slide.get("title", "").strip().lower() != "agenda"
             ]
 
-            # Generate agenda slide
             agenda_slide = generate_agenda_slide(slides_without_agenda)
-
-            # Final slide order
             final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:] + ending_slides
 
-            # Create the PowerPoint file
             pptx_path = create_ppt_from_json(final_slides, theme_json, topic)
 
-        # Show success message and success.gif
         st.success("✅ Presentation created!")
-        st.image("assets/success.gif", width=300)
+        st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/success.gif", width=300)
 
-        # Download button
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
