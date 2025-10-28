@@ -1,8 +1,9 @@
 streamlit
-crewai
+crewai[google-genai]
 python-pptx
 python-dotenv
 rich
 google-generativeai
 litellm
+
 
