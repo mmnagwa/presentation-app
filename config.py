@@ -8,8 +8,9 @@ if not google_api_key:
     raise ValueError("GOOGLE_API_KEY is missing. Please add it to Streamlit Secrets.")
 
 llm = LLM(
-    model="gemini/gemini-2.5-flash",  
+    model="gemini/gemini-2.0-flash",  
     api_key=google_api_key,
     temperature=0.7
 )
+
 
