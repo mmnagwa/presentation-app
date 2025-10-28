@@ -25,9 +25,14 @@ def slugify(text):
 
 def safe_json_parse(raw_text):
     try:
-        return json.loads(raw_text)
+        cleaned = re.search(r'\[.*\]|\{.*\}', raw_text, re.DOTALL)
+        if cleaned:
+            return json.loads(cleaned.group(0))
+        print("⚠️ No valid JSON found in:", raw_text[:200])
+        return []
     except json.JSONDecodeError as e:
-        print("JSON parsing error:", e)
+        print("❌ JSON parsing error:", e)
+        print("Raw text snippet:", raw_text[:300])
         return []
 
 def generate_agenda_slide(slides):
@@ -51,6 +56,7 @@ def generate_agenda_slide(slides):
             "• Conclusion"
         ]
     }
+
 
 
 
