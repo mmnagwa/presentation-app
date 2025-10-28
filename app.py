@@ -1,4 +1,5 @@
 import streamlit as st
+import streamlit.components.v1 as components
 from agents import run_agents
 from generator import create_ppt_from_json
 from utils import generate_agenda_slide
@@ -40,20 +41,21 @@ st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 st.title("🎓 Presentation Generator")
 st.markdown("Talk to the assistant like you're requesting a presentation.")
 
-# Layout: input box + chat.gif
+# Layout: input box + animated robot
 col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("assets/chat.gif", width=80)
+    st.image("https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif", width=120)
 
-# Tip section: tip.gif + random tip
-with st.container():
-    tip_col1, tip_col2 = st.columns([1, 5])
-    with tip_col1:
-        st.image("assets/tip.gif", width=60)
-    with tip_col2:
-        st.markdown("💡 **Tip:** " + random.choice(tips))
+# Tip section (optional static tip)
+# You can remove this if you only want the pop-up version
+# with st.container():
+#     tip_col1, tip_col2 = st.columns([1, 5])
+#     with tip_col1:
+#         st.image("assets/tip.gif", width=60)
+#     with tip_col2:
+#         st.markdown("💡 **Tip:** " + random.choice(tips))
 
 # Slide settings
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
@@ -64,34 +66,82 @@ if st.button("Generate Presentation"):
     if not topic.strip():
         st.warning("⚠️ Please enter a topic to generate your presentation.")
     else:
+        # Show animated tip pop-up with robot
+        tip_text = random.choice(tips)
+        components.html(f"""
+        <div id="popup" style="
+            position: fixed;
+            top: 15%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #fefefe;
+            border: 2px solid #ccc;
+            border-radius: 16px;
+            padding: 20px;
+            z-index: 9999;
+            box-shadow: 0 0 30px rgba(0,0,0,0.3);
+            width: 420px;
+            text-align: center;
+            font-family: 'Segoe UI', sans-serif;
+            animation: fadeIn 0.6s ease-in-out;
+        ">
+            <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="140" style="margin-bottom: 10px;" />
+            <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
+            <p style="font-size: 16px;">{tip_text}</p>
+            <button onclick="document.getElementById('popup').style.display='none'" style="
+                margin-top: 12px;
+                padding: 8px 16px;
+                background-color: #ff4b4b;
+                color: white;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-size: 14px;
+            ">Close</button>
+        </div>
+
+        <style>
+        @keyframes fadeIn {{
+          from {{ opacity: 0; transform: scale(0.9); }}
+          to {{ opacity: 1; transform: scale(1); }}
+        }}
+        </style>
+        """, height=350)
+
         with st.spinner("🤖 Generating your presentation..."):
-            # Step 1: Run agents to get structure, content, and theme
             structure_json, content_json, theme_json = run_agents(topic, slides_num, points_num)
 
-            # Step 2: Remove original agenda slide if present
+            # Separate ending slides
+            ending_titles = ["conclusion", "any questions?", "thank you"]
+            ending_slides = []
+            content_slides = []
+
+            for slide in content_json:
+                title = slide.get("title", "").strip().lower()
+                if title in ending_titles:
+                    ending_slides.append(slide)
+                else:
+                    content_slides.append(slide)
+
+            # Remove agenda if present
             slides_without_agenda = [
-                slide for slide in content_json
+                slide for slide in content_slides
                 if slide.get("title", "").strip().lower() != "agenda"
             ]
 
-            # Step 3: Generate agenda slide
+            # Generate agenda slide
             agenda_slide = generate_agenda_slide(slides_without_agenda)
 
-            # Step 4: Insert agenda after title slide
-            if not slides_without_agenda or len(slides_without_agenda) == 0:
-                st.error("❌ No slides were generated. Please try again — the model might be busy.")
-                st.stop()
+            # Final slide order
+            final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:] + ending_slides
 
-            final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:]
-
-            # Step 5: Create PowerPoint file
+            # Create the PowerPoint file
             pptx_path = create_ppt_from_json(final_slides, theme_json, topic)
 
-        # Step 6: Show success message and success.gif
+        # Show success message and success.gif
         st.success("✅ Presentation created!")
         st.image("assets/success.gif", width=300)
 
-        # Step 7: Download button
+        # Download button
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
-
