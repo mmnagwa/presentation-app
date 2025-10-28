@@ -1,10 +1,12 @@
 streamlit
 crewai[google-genai]
+crewai-tools
 python-pptx
 python-dotenv
 rich
 google-generativeai
 litellm
+
 
 
 
