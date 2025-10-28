@@ -59,8 +59,7 @@ col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("https://github.com/mmnagwa/presentation-app/blob/main/assets/chat.gif?raw=true", width=120)
-
+    st.image("assets/chat.gif", width=120)
 # Sliders
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
 points_num = st.slider("🔹 Points per slide", 2, 6, 3)
@@ -90,7 +89,7 @@ if st.button("Generate Presentation"):
             font-family: 'Segoe UI', sans-serif;
             animation: fadeIn 0.6s ease-in-out;
         ">
-            <img src="https://github.com/mmnagwa/presentation-app/blob/main/assets/tip.gif?raw=true" width="100" style="margin-bottom: 10px;" />
+            <img src="assets/tip.gif?raw=true" width="100" style="margin-bottom: 10px;" />
 
             <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
             <p style="font-size: 16px;">{tip_text}</p>
@@ -139,9 +138,10 @@ if st.button("Generate Presentation"):
             pptx_path = create_ppt_from_json(final_slides, theme_json, topic)
 
         st.success("✅ Presentation created!")
-        st.image("https://github.com/mmnagwa/presentation-app/blob/main/assets/success.gif?raw=true", width=300)
+        st.image("assets/success.gif", width=120)
 
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
 
 
