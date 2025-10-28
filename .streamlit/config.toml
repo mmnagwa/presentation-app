@@ -1,3 +1,6 @@
 # .streamlit/config.toml
 [server]
 fileWatcherType = "none"
+
+OPENAI_API_KEY = "dummy_crewai_key_ignore_me" 
+GOOGLE_API_KEY = "AIzaSyDaM9pgt5wef8uXfZt3Wcm8--XxvtB8eRo"
