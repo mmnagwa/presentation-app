@@ -1,10 +1,13 @@
 import os
-from dotenv import load_dotenv
-from langchain_openai import OpenAI
+import google.generativeai as genai
+from crewai import LLM
+gemini_api_key = os.getenv("GEMINI_API_KEY")
+genai.configure(api_key=gemini_api_key)
 
-load_dotenv()
+llm = LLM(
+    model="gemini-1.5-flash",
+    api_key=os.getenv("GEMINI_API_KEY"),
+    temperature=0.7
+)
 
-openai_api_key = os.getenv("OPENAI_API_KEY")
-os.environ["GOOGLE_API_KEY"] = "AIzaSyDaM9pgt5wef8uXfZt3Wcm8--XxvtB8eRo"
 
-llm = OpenAI(openai_api_key=openai_api_key)
