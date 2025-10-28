@@ -51,7 +51,7 @@ st.markdown("""
 
 
 # Title
-st.title("🎓 Presentation Generator")
+st.title("📃Presentation Generator")
 st.markdown("Talk to the assistant like you're requesting a presentation.")
 
 # Input + chat.gif
@@ -59,7 +59,7 @@ col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/chat.gif", width=120)
+    st.image("https://github.com/mmnagwa/presentation-app/blob/main/assets/chat.gif?raw=true", width=120)
 
 # Sliders
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
@@ -90,7 +90,8 @@ if st.button("Generate Presentation"):
             font-family: 'Segoe UI', sans-serif;
             animation: fadeIn 0.6s ease-in-out;
         ">
-            <img src="https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/tip.gif" width="100" style="margin-bottom: 10px;" />
+            <img src="https://github.com/mmnagwa/presentation-app/blob/main/assets/tip.gif?raw=true" width="100" style="margin-bottom: 10px;" />
+
             <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
             <p style="font-size: 16px;">{tip_text}</p>
             <button onclick="document.getElementById('popup').style.display='none'" style="
@@ -138,8 +139,9 @@ if st.button("Generate Presentation"):
             pptx_path = create_ppt_from_json(final_slides, theme_json, topic)
 
         st.success("✅ Presentation created!")
-        st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/success.gif", width=300)
+        st.image("https://github.com/mmnagwa/presentation-app/blob/main/assets/success.gif?raw=true", width=300)
 
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
 
