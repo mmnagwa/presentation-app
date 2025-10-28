@@ -1,14 +1,6 @@
 import os
-import google.generativeai as genai
 from crewai import LLM
-
-google_api_key = os.getenv("GOOGLE_API_KEY")
-genai.configure(api_key=google_api_key)
-
 llm = LLM(
-    provider="litellm",  
-    model="gemini-1.5-flash", 
-    api_key=google_api_key,
+    model="gemini/gemini-2.5-flash",
     temperature=0.7
 )
-
