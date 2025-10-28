@@ -14,33 +14,37 @@ def run_agents(topic, slides_num, points_num):
     )
 
     structure_task = Task(
-        description=f"""
-Analyze the topic: "{topic}" and generate a presentation structure with exactly {slides_num} slides.
+       description=f"""
+    Analyze the topic: "{topic}" and generate a presentation structure with exactly {slides_num} slides.
+    
+    Slides structure:
+    1. Title: topic name only.
+    2. Agenda: list 5–7 main sections that summarize the key content slides.
+    3. Introduction: brief overview.
+    4. Main Content slides: each slide should contain:
+       - A clear title.
+       - {points_num} detailed bullet points (2–3 lines each).
+       - Use bullet symbol "•".
+    5. Fact/Quote/Statistic Slide: include one of:
+       - Scientific fact with source.
+       - OR famous quote.
+       - OR realistic statistic.
+    6. Conclusion: summarize main insights.
+    7. “Any Questions?” Slide: contains only "Any Questions?" centered.
+    8. “Thank You” Slide: contains only "Thank You" centered.
+    
+    Important:
+    - The last slide must always be “Thank You”.
+    - Do not place “Thank You” or “Any Questions?” before the conclusion.
+    - Return the output as a JSON list of slides like this:
+    [
+      {{
+        "title": "Slide Title",
+        "content": ["• point 1", "• point 2", "• point 3"]
+      }}
+    ]
+    """,
 
-Slides structure:
-1. Title: topic name only.
-2. Agenda: list 5–7 main sections that summarize the key content slides. These should group related slides under broader themes.
-3. Introduction: brief overview.
-4. Main Content slides: each slide should contain:
-   - A clear title.
-   - {points_num} detailed bullet points (2–3 lines each).
-   - Use bullet symbol "•".
-5. Fact/Quote/Statistic Slide: include one of:
-   - Scientific fact with source.
-   - OR famous quote.
-   - OR realistic statistic.
-6. Conclusion: summarize main insights.
-7. “Any Questions?” Slide: contains only "Any Questions?" centered.
-8. “Thank You” Slide: contains only "Thank You" centered.
-
-Return the output as a JSON list of slides like this:
-[
-  {{
-    "title": "Slide Title",
-    "content": ["• point 1", "• point 2", "• point 3"]
-  }}
-]
-""",
         expected_output="A JSON string representing the slide structure.",
         agent=architect
     )
@@ -92,15 +96,20 @@ Return output as JSON list of slides:
     )
 
     theme_task = Task(
-        description=f"""
+    description=f"""
 Choose a suitable visual theme for a presentation titled "{topic}".
 
-Your goal is to select a theme that reflects the scientific and nutritional nature of the topic.
+Your goal is to select a theme that matches the nature of the topic. Adapt your choices based on whether the topic is scientific, environmental, social, educational, or technical.
 
-Use:
-- Calm, natural colors (e.g., ocean blue, soft gray, white)
-- Font style: clean and readable (e.g., Calibri, Segoe UI)
-- Mood: scientific, trustworthy, informative
+Guidelines:
+- Color palette: choose 3 complementary colors that reflect the topic's tone.
+  - For scientific topics: calm, clean colors (e.g., soft blue, gray, white)
+  - For environmental topics: natural tones (e.g., green, brown, sky blue)
+  - For social topics: warm and inviting colors (e.g., orange, teal, soft purple)
+  - For technical topics: modern and sleek (e.g., dark gray, electric blue, white)
+- Font style: clean and readable (e.g., Calibri, Segoe UI, Roboto, Lato)
+- Mood: describe the emotional tone (e.g., trustworthy, inspiring, dynamic)
+- Rationale: explain why this theme fits the topic
 
 Return output as JSON:
 {{
@@ -110,9 +119,9 @@ Return output as JSON:
   "rationale": "Why it fits the topic"
 }}
 """,
-        expected_output="A JSON string describing the theme.",
-        agent=stylist
-    )
+    expected_output="A JSON string describing the theme.",
+    agent=stylist
+)
 
     # تشغيل الـ Crew لكل Agent
     structure_result = Crew(agents=[architect], tasks=[structure_task]).kickoff()
@@ -131,6 +140,7 @@ Return output as JSON:
     theme_json = safe_json_parse(str(theme_result.raw))
     
     return structure_json, content_json, theme_json
+
 
 
 
