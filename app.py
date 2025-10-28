@@ -45,13 +45,13 @@ col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("assets/chat.gif", width=80)
+    st.image("assets/chat.gif", width=100)
 
 # Tip section: tip.gif + random tip
 with st.container():
     tip_col1, tip_col2 = st.columns([1, 5])
     with tip_col1:
-        st.image("assets/tip.gif", width=60)
+        st.image("assets/tip.gif", width=100)
     with tip_col2:
         st.markdown("💡 *Tip:* " + random.choice(tips))
 
@@ -102,3 +102,4 @@ if st.button("Generate Presentation"):
         # Download button
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
