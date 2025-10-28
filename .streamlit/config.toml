@@ -1,3 +1,5 @@
 # .streamlit/config.toml
 [server]
 folderWatchBlacklist = ["data", ".git", ".cache", "logs", "venv"]
+# .streamlit/
+fileWatcherType = "none"
