@@ -8,3 +8,6 @@ python-pptx
 python-dotenv
 rich
 langchain-openai
+crewai
+google-generativeai
+litellm
