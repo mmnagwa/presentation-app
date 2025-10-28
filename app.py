@@ -37,6 +37,18 @@ tips = [
 # Page configuration
 st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 
+# Background image from GitHub assets
+st.markdown("""
+    <style>
+    body {
+        background-image: url("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/abstract-technological-background_23-2148897676.jpg");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-attachment: fixed;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
 # App title and instructions
 st.title("🎓 Presentation Generator")
 st.markdown("Talk to the assistant like you're requesting a presentation.")
@@ -46,16 +58,7 @@ col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif", width=120)
-
-# Tip section (optional static tip)
-# You can remove this if you only want the pop-up version
-# with st.container():
-#     tip_col1, tip_col2 = st.columns([1, 5])
-#     with tip_col1:
-#         st.image("assets/tip.gif", width=60)
-#     with tip_col2:
-#         st.markdown("💡 **Tip:** " + random.choice(tips))
+    st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/chat.gif", width=120)
 
 # Slide settings
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
@@ -85,7 +88,7 @@ if st.button("Generate Presentation"):
             font-family: 'Segoe UI', sans-serif;
             animation: fadeIn 0.6s ease-in-out;
         ">
-            <img src="https://media.giphy.com/media/3o7aD2saalBwwftBIY/giphy.gif" width="140" style="margin-bottom: 10px;" />
+            <img src="https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/tip.gif" width="140" style="margin-bottom: 10px;" />
             <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
             <p style="font-size: 16px;">{tip_text}</p>
             <button onclick="document.getElementById('popup').style.display='none'" style="
@@ -140,7 +143,7 @@ if st.button("Generate Presentation"):
 
         # Show success message and success.gif
         st.success("✅ Presentation created!")
-        st.image("assets/success.gif", width=300)
+        st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/success.gif", width=300)
 
         # Download button
         with open(pptx_path, "rb") as f:
