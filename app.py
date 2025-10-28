@@ -5,7 +5,7 @@ from generator import create_ppt_from_json
 from utils import generate_agenda_slide
 import random
 
-# Dynamic tips
+# Tips
 tips = [
     "🎤 Don’t read your slides — your audience can read faster than you!",
     "🧙 Pretend your laser pointer is a lightsaber — but use it wisely.",
@@ -15,20 +15,20 @@ tips = [
     "📚 Avoid putting whole essays on slides — it’s a presentation, not a novel!",
     "🎬 Practice like you’re on Netflix — aim to entertain, not just inform.",
     "😴 If your audience yawns, ask a question. If they still yawn, ask a weird one!",
-    "🖼️ A picture is worth a thousand bullet points.",
+    "🖼 A picture is worth a thousand bullet points.",
     "🙈 Don’t apologize for your slides — they can’t hear you anyway.",
     "💫 Animations are cool... until they’re not. Keep it classy!",
-    "🖲️ Always test your clicker — it’s your best friend on stage.",
+    "🖲 Always test your clicker — it’s your best friend on stage.",
     "💧 Keep water nearby. Presenting without it is like running a marathon in the desert.",
-    "🎙️ Your mic doesn’t make you Beyoncé — speak clearly, not loudly!",
+    "🎙 Your mic doesn’t make you Beyoncé — speak clearly, not loudly!",
     "🧂 Use transitions like salt — a pinch adds flavor, too much ruins everything.",
     "👀 Never say 'Can you all see this?' — they can, and now they’re distracted.",
     "📖 If your slide has more text than a Wikipedia page... start over.",
     "😊 Smile — it’s free design for your face!",
     "🤓 If your joke flops, just say 'That one’s for the data scientists.'",
     "🧩 Don’t argue with your slides — they always win.",
-    "👁️ Make eye contact with humans, not the screen.",
-    "⏸️ Pause — it makes you sound smart and dramatic.",
+    "👁 Make eye contact with humans, not the screen.",
+    "⏸ Pause — it makes you sound smart and dramatic.",
     "🤖 If something breaks, make it part of the show — own the chaos!",
     "💪 Confidence beats perfection. Every. Single. Time.",
     "📱 End before they start checking their phones 😬."
@@ -74,7 +74,8 @@ if st.button("Generate Presentation"):
         components.html(f"""
         <div id="popup" style="
             position: fixed;
-            top: 15%;
+            top: 8%;
+            background-color: rgba(255, 255, 255, 0.8);
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #fefefe;
