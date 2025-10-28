@@ -78,6 +78,10 @@ if st.button("Generate Presentation"):
             agenda_slide = generate_agenda_slide(slides_without_agenda)
 
             # Step 4: Insert agenda after title slide
+            if not slides_without_agenda or len(slides_without_agenda) == 0:
+                st.error("❌ No slides were generated. Please try again — the model might be busy.")
+                st.stop()
+
             final_slides = [slides_without_agenda[0], agenda_slide] + slides_without_agenda[1:]
 
             # Step 5: Create PowerPoint file
@@ -90,3 +94,4 @@ if st.button("Generate Presentation"):
         # Step 7: Download button
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
