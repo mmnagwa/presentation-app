@@ -125,3 +125,4 @@ Return output as JSON:
     theme_json = safe_json_parse(str(theme_result.raw))
 
     return structure_json, content_json, theme_json
+
