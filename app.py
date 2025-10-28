@@ -111,8 +111,11 @@ if st.button("Generate Presentation"):
         </style>
         """, height=350)
 
-        # Generate presentation
-        with st.spinner("🤖 Generating your presentation..."):
+       
+        # Show loading message under the button
+        st.markdown("### 🤖 Generating your presentation...")
+
+        with st.spinner("Please wait..."):
             structure_json, content_json, theme_json = run_agents(topic, slides_num, points_num)
 
             ending_titles = ["conclusion", "any questions?", "thank you"]
@@ -141,3 +144,4 @@ if st.button("Generate Presentation"):
 
             with open(pptx_path, "rb") as f:
                 st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
