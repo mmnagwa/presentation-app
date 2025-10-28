@@ -1,13 +1,10 @@
 streamlit
-crewai
 langchain
 langchain-community
-openai
 transformers
 python-pptx
 python-dotenv
 rich
-langchain-openai
-crewai
-google-generativeai
-litellm
+crewai==0.30.0
+google-generativeai==0.3.2
+litellm==1.15.0
