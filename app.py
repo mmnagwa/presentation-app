@@ -41,7 +41,7 @@ st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 st.markdown("""
     <style>
     body {
-        background-image: url("https://github.com/mmnagwa/presentation-app/blob/main/assets/abstract-technological-background_23-2148897676.jpg?raw=true");
+        background-image: url("assets/abstract-technological-background_23-2148897676.jpg?raw=true");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -69,16 +69,16 @@ if st.button("Generate Presentation"):
     if not topic.strip():
         st.warning("⚠️ Please enter a topic to generate your presentation.")
     else:
+        with st.spinner("🤖 Generating your presentation..."):
         # Show tip pop-up
         tip_text = random.choice(tips)
         components.html(f"""
         <div id="popup" style="
             position: fixed;
-            top: 8%;
-            background-color: rgba(255, 255, 255, 0.8);
+            top: 4%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: #fefefe;
+            background-color: rgba(255, 255, 255, 0.8);
             border: 2px solid #ccc;
             border-radius: 16px;
             padding: 20px;
@@ -90,7 +90,6 @@ if st.button("Generate Presentation"):
             animation: fadeIn 0.6s ease-in-out;
         ">
             <img src="assets/tip.gif?raw=true" width="100" style="margin-bottom: 10px;" />
-
             <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
             <p style="font-size: 16px;">{tip_text}</p>
             <button onclick="document.getElementById('popup').style.display='none'" style="
@@ -103,7 +102,7 @@ if st.button("Generate Presentation"):
                 cursor: pointer;
                 font-size: 14px;
             ">Close</button>
-        </div>
+         </div>
 
         <style>
         @keyframes fadeIn {{
@@ -142,6 +141,7 @@ if st.button("Generate Presentation"):
 
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
 
 
 
