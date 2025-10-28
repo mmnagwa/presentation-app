@@ -41,13 +41,14 @@ st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 st.markdown("""
     <style>
     body {
-        background-image: url("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/abstract-technological-background_23-2148897676.jpg");
+        background-image: url("https://github.com/mmnagwa/presentation-app/blob/main/assets/abstract-technological-background_23-2148897676.jpg?raw=true");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
     }
     </style>
 """, unsafe_allow_html=True)
+
 
 # Title
 st.title("🎓 Presentation Generator")
@@ -141,3 +142,4 @@ if st.button("Generate Presentation"):
 
         with open(pptx_path, "rb") as f:
             st.download_button("📥 Download Presentation", f, file_name=pptx_path)
+
