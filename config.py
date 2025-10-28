@@ -1,5 +1,6 @@
 import os
-from crewai import LLM
+from crewai.llm import LLM 
+from litellm import completion
 llm = LLM(
     provider="litellm",  
     model="gemini/gemini-2.5-flash", 
