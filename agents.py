@@ -116,13 +116,21 @@ Return output as JSON:
 
     # تشغيل الـ Crew لكل Agent
     structure_result = Crew(agents=[architect], tasks=[structure_task]).kickoff()
+    print("=== STRUCTURE RAW ===")
+    print(structure_result.raw)
     structure_json = safe_json_parse(str(structure_result.raw))
-
+    
     content_result = Crew(agents=[writer], tasks=[content_task]).kickoff(inputs={"structure": structure_json})
+    print("=== CONTENT RAW ===")
+    print(content_result.raw)
     content_json = safe_json_parse(str(content_result.raw))
-
+    
     theme_result = Crew(agents=[stylist], tasks=[theme_task]).kickoff()
+    print("=== THEME RAW ===")
+    print(theme_result.raw)
     theme_json = safe_json_parse(str(theme_result.raw))
-
+    
     return structure_json, content_json, theme_json
+
+
 
