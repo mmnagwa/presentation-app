@@ -49,9 +49,8 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
-
 # Title
-st.title("📃Presentation Generator")
+st.title("📃 Presentation Generator")
 st.markdown("Talk to the assistant like you're requesting a presentation.")
 
 # Input + chat.gif
@@ -60,17 +59,17 @@ with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
     st.image("assets/chat.gif", width=120)
+
 # Sliders
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
 points_num = st.slider("🔹 Points per slide", 2, 6, 3)
 
-# Generate
+# Generate presentation button
 if st.button("Generate Presentation"):
     if not topic.strip():
         st.warning("⚠️ Please enter a topic to generate your presentation.")
     else:
-        with st.spinner("🤖 Generating your presentation..."):
-        # Show tip pop-up
+        # Show a random tip popup
         tip_text = random.choice(tips)
         components.html(f"""
         <div id="popup" style="
@@ -102,7 +101,7 @@ if st.button("Generate Presentation"):
                 cursor: pointer;
                 font-size: 14px;
             ">Close</button>
-         </div>
+        </div>
 
         <style>
         @keyframes fadeIn {{
@@ -112,6 +111,7 @@ if st.button("Generate Presentation"):
         </style>
         """, height=350)
 
+        # Generate presentation
         with st.spinner("🤖 Generating your presentation..."):
             structure_json, content_json, theme_json = run_agents(topic, slides_num, points_num)
 
@@ -136,12 +136,8 @@ if st.button("Generate Presentation"):
 
             pptx_path = create_ppt_from_json(final_slides, theme_json, topic)
 
-        st.success("✅ Presentation created!")
-        st.image("assets/success.gif", width=120)
+            st.success("✅ Presentation created!")
+            st.image("assets/success.gif", width=120)
 
-        with open(pptx_path, "rb") as f:
-            st.download_button("📥 Download Presentation", f, file_name=pptx_path)
-
-
-
-
+            with open(pptx_path, "rb") as f:
+                st.download_button("📥 Download Presentation", f, file_name=pptx_path)
