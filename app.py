@@ -37,11 +37,11 @@ tips = [
 # Page configuration
 st.set_page_config(page_title="🎓 Presentation Generator", layout="centered")
 
-# Background image from GitHub assets
+# Background image from local assets
 st.markdown("""
     <style>
     body {
-        background-image: url("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/abstract-technological-background_23-2148897676.jpg");
+        background-image: url("assets/abstract-technological-background_23-2148897676.jpg");
         background-size: cover;
         background-repeat: no-repeat;
         background-attachment: fixed;
@@ -58,7 +58,7 @@ col1, col2 = st.columns([5, 1])
 with col1:
     topic = st.text_area("📝 Enter your topic or content")
 with col2:
-    st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/chat.gif", width=120)
+    st.image("assets/chat.gif", width=120)
 
 # Slide settings
 slides_num = st.slider("📄 Number of slides", 5, 20, 10)
@@ -88,7 +88,7 @@ if st.button("Generate Presentation"):
             font-family: 'Segoe UI', sans-serif;
             animation: fadeIn 0.6s ease-in-out;
         ">
-            <img src="https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/tip.gif" width="140" style="margin-bottom: 10px;" />
+            <img src="assets/tip.gif" width="140" style="margin-bottom: 10px;" />
             <h4 style="margin-bottom: 10px;">💡 Presentation Tip</h4>
             <p style="font-size: 16px;">{tip_text}</p>
             <button onclick="document.getElementById('popup').style.display='none'" style="
@@ -143,7 +143,7 @@ if st.button("Generate Presentation"):
 
         # Show success message and success.gif
         st.success("✅ Presentation created!")
-        st.image("https://raw.githubusercontent.com/mnmagwa/presentation-app/main/assets/success.gif", width=300)
+        st.image("assets/success.gif", width=300)
 
         # Download button
         with open(pptx_path, "rb") as f:
