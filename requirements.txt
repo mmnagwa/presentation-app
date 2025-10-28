@@ -1,9 +1,10 @@
 streamlit
-crewai[google-genai]
+crewai[google-genai]==0.28.8
 python-pptx
 python-dotenv
 rich
 google-generativeai
 litellm
+
 
 
